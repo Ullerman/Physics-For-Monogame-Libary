@@ -65,13 +65,13 @@ namespace Physics
 
         public class Circle
         {
-            public Vector2 Position;
+            public Vector2 origin;
             public float Radius;
             public Color Color;
 
             public Circle(Vector2 position, float radius, Color color)
             {
-                Position = position;
+                origin = position;
                 Radius = radius;
                 Color = color;
             }
@@ -80,7 +80,7 @@ namespace Physics
             {
                 spriteBatch.Draw(
                     primitiveBatch.WhiteCircle,
-                    Position,
+                    origin,
                     null,
                     Color,
                     0,

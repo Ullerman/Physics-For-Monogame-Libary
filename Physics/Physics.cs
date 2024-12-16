@@ -26,7 +26,7 @@ namespace Physics
 
         private float DistanceSquaredBetweenPoints(Vector2 point1, Vector2 point2)
         {
-            return (point1.X * point1.X + point2.Y * point2.Y);
+            return point1.X * point1.X + point2.Y * point2.Y;
         }
 
         private float CalculateAngleBetweenPoints(Vector2 point1, Vector2 point2)
@@ -55,8 +55,18 @@ namespace Physics
 
         public bool IsIntersecting(Circle circle, Rectangle rectangle)
         {
-            float distance = DistanceSquaredBetweenPointAndRect(rectangle, circle.origin);
-            return distance <= (circle.radius * circle.radius);
+            // float distance = DistanceSquaredBetweenPointAndRect(rectangle, circle.origin);
+            // return distance <= (circle.radius * circle.radius);
+            if (
+                circle.origin.Y + circle.radius >= rectangle.Top
+                && circle.origin.Y - circle.radius <= rectangle.Bottom
+                && circle.origin.X + circle.radius >= rectangle.Left
+                && circle.origin.X - circle.radius <= rectangle.Right
+            )
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool IsIntersecting(Circle circle, Circle circle2)
@@ -64,7 +74,7 @@ namespace Physics
             float angle = CalculateAngleBetweenPoints(circle.origin, circle2.origin);
             Vector2 nearestPoint = GetPointOnCircumference(circle, angle);
             float distance = DistanceSquaredBetweenPoints(nearestPoint, circle2.origin);
-            return (distance <= (circle.radius * circle.radius));
+            return distance <= (circle.radius * circle.radius);
         }
 
         public Vector2 GravityCalculationToPoint(
@@ -85,17 +95,12 @@ namespace Physics
 
         public Vector2 GravityCalculationAngle(
             float angle,
-            Vector2 position,
             Vector2 force,
             float objectMass,
-            float sourceMass
+            float gravityStrength
         )
         {
-            float distance = DistanceSquaredBetweenPoints(
-                position,
-                CalculateVector2AtAngleAndMagnitude(angle, 1)
-            );
-            float deltaforce = GCONST * objectMass * sourceMass / distance;
+            float deltaforce = objectMass * gravityStrength;
             Vector2 forceVector = CalculateVector2AtAngleAndMagnitude(angle, deltaforce);
 
             return force + forceVector;
