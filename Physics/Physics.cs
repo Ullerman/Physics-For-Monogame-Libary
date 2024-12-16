@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -9,6 +10,8 @@ namespace Physics
 {
     internal class Physics
     {
+        private const float GCONST = 6.67430e-11f;
+
         private float DistanceSquaredBetweenPointAndRect(Rectangle rectangle, Vector2 point)
         {
             float closestX = Math.Clamp(point.X, rectangle.Left, rectangle.Right);
@@ -36,6 +39,13 @@ namespace Physics
             return angle;
         }
 
+        private Vector2 CalculateVector2AtAngleAndMagnitude(float angle, float magnitude)
+        {
+            float x = magnitude * MathF.Cos(angle);
+            float y = magnitude * MathF.Sin(angle);
+            return new Vector2(x, y);
+        }
+
         public Vector2 GetPointOnCircumference(Circle circle, float angle)
         {
             float x = circle.origin.X + circle.radius * MathF.Cos(angle);
@@ -55,6 +65,40 @@ namespace Physics
             Vector2 nearestPoint = GetPointOnCircumference(circle, angle);
             float distance = DistanceSquaredBetweenPoints(nearestPoint, circle2.origin);
             return (distance <= (circle.radius * circle.radius));
+        }
+
+        public Vector2 GravityCalculationToPoint(
+            Vector2 sourcePos,
+            Vector2 objectPos,
+            Vector2 force,
+            float massOfObject,
+            float massOfSource
+        )
+        {
+            float distance = DistanceSquaredBetweenPoints(sourcePos, objectPos);
+            float angle = CalculateAngleBetweenPoints(sourcePos, objectPos);
+            float deltaforce = GCONST * massOfObject * massOfSource / distance;
+            Vector2 forceVector = CalculateVector2AtAngleAndMagnitude(angle, deltaforce);
+
+            return force + forceVector;
+        }
+
+        public Vector2 GravityCalculationAngle(
+            float angle,
+            Vector2 position,
+            Vector2 force,
+            float objectMass,
+            float sourceMass
+        )
+        {
+            float distance = DistanceSquaredBetweenPoints(
+                position,
+                CalculateVector2AtAngleAndMagnitude(angle, 1)
+            );
+            float deltaforce = GCONST * objectMass * sourceMass / distance;
+            Vector2 forceVector = CalculateVector2AtAngleAndMagnitude(angle, deltaforce);
+
+            return force + forceVector;
         }
     }
 }
