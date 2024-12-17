@@ -25,6 +25,7 @@ namespace Physics
         Circle _earth;
         Vector2 _ballVelocity;
         Vector2 _ballForce;
+        float _ballMass;
 
         PrimitiveBatch.Rectangle _floorTexture;
         Rectangle _floor;
@@ -40,6 +41,7 @@ namespace Physics
         {
             _ball = new Circle(new Vector2(100, 100), .5f);
             _ballTexture = new PrimitiveBatch.Circle(_ball.origin, _ball.radius, Color.Red);
+            _ballMass = .5f;
             _ballForce = new Vector2(0, 0);
             _ballVelocity = new Vector2(0, 0);
 
