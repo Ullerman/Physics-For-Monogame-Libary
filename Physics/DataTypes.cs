@@ -7,17 +7,21 @@ using Microsoft.Xna.Framework;
 
 namespace Physics
 {
-    struct Circle
+    struct ball
     {
         public Vector2 origin;
         public float radius;
         public float mass;
-        public float force;
+        public Vector2 force;
+        public Vector2 velocity;
         
-        public Circle(Vector2 origin, float radius)
+        public ball(Vector2 origin, float radius,float mass,vector2 force,Vector2 velocity)
         {
             this.origin = origin;
             this.radius = radius;
+            this.mass = mass;
+            this.force = force;
+            this.velocity = velocity;
         }
     }
 }
