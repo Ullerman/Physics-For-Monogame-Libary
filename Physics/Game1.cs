@@ -64,8 +64,9 @@ namespace Physics
         {
             Vector2 ballPositionMeters = _ball.origin / PixelsPerMeter;
 
-            _ballForce = _physics.GravityCalculationAngle(3 * MathF.PI / 2, _ballForce, 5f, 9.81f);
-            Vector2 ballAccelerationMeters = new Vector2(_ballForce.X / 5f, _ballForce.Y * -1 / 5f);
+            vector2 baseForce = _physics.GravityCalculationAngle(3 * MathF.PI / 2, _ballForce, 5f, 9.81f);
+            baseForce = new Vector2(baseForce.X, baseForce.Y * -1);
+            Vector2 ballAccelerationMeters = (baseforce + _ballForce)/.5f;
 
             _ballVelocity += ballAccelerationMeters * deltaTime;
 
