@@ -7,11 +7,13 @@ using Microsoft.Xna.Framework;
 
 namespace Physics
 {
-    class Circle
+    struct Circle
     {
         public Vector2 origin;
         public float radius;
-
+        public float mass;
+        public float force;
+        
         public Circle(Vector2 origin, float radius)
         {
             this.origin = origin;
