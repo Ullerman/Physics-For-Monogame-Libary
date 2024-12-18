@@ -46,14 +46,14 @@ namespace Physics
             return new Vector2(x, y);
         }
 
-        public Vector2 GetPointOnCircumference(Circle circle, float angle)
+        public Vector2 GetPointOnCircumference(Ball circle, float angle)
         {
             float x = circle.origin.X + circle.radius * MathF.Cos(angle);
             float y = circle.origin.Y + circle.radius * MathF.Sin(angle);
             return new Vector2(x, y);
         }
 
-        public bool IsIntersecting(Circle circle, Rectangle rectangle)
+        public bool IsIntersecting(Ball circle, Rectangle rectangle)
         {
             // float distance = DistanceSquaredBetweenPointAndRect(rectangle, circle.origin);
             // return distance <= (circle.radius * circle.radius);
@@ -69,7 +69,7 @@ namespace Physics
             return false;
         }
 
-        public bool IsIntersecting(Circle circle, Circle circle2)
+        public bool IsIntersecting(Ball circle, Ball circle2)
         {
             float angle = CalculateAngleBetweenPoints(circle.origin, circle2.origin);
             Vector2 nearestPoint = GetPointOnCircumference(circle, angle);

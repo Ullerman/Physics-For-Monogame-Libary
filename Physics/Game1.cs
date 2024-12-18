@@ -19,10 +19,10 @@ namespace Physics
         Texture2D _whiteCircle;
 
         PrimitiveBatch.Circle _ballTexture;
-        Circle _ball;
+        Ball _ball;
 
         PrimitiveBatch.Circle _earthTexture;
-        Circle _earth;
+        Ball _earth;
         Vector2 _ballVelocity;
         Vector2 _ballForce;
         float _ballMass;
@@ -39,7 +39,7 @@ namespace Physics
 
         protected override void Initialize()
         {
-            _ball = new Circle(new Vector2(100, 100), .5f);
+            _ball = new Ball(new Vector2(100, 100), .5f,.5f);
             _ballTexture = new PrimitiveBatch.Circle(_ball.origin, _ball.radius, Color.Red);
             _ballMass = .5f;
             _ballForce = new Vector2(0, 0);
@@ -66,9 +66,9 @@ namespace Physics
         {
             Vector2 ballPositionMeters = _ball.origin / PixelsPerMeter;
 
-            vector2 baseForce = _physics.GravityCalculationAngle(3 * MathF.PI / 2, _ballForce, 5f, 9.81f);
+            Vector2 baseForce = _physics.GravityCalculationAngle(3*MathF.PI / 2, _ballForce, .5f, 9.81f);
             baseForce = new Vector2(baseForce.X, baseForce.Y * -1);
-            Vector2 ballAccelerationMeters = (baseforce + _ballForce)/.5f;
+            Vector2 ballAccelerationMeters = (baseForce + _ballForce)/.5f;
 
             _ballVelocity += ballAccelerationMeters * deltaTime;
 
